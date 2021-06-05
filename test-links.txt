@@ -1,12 +1,23 @@
-Currency Conversion Service (currency-conversion)
+*-Currency Conversion Service (currency-conversion)
 http://localhost:8100/currency-conversion-feign/from/USD/to/TR/quantity/100
 
-Currency Exchange Service (currency-exchange)
+*-Currency Exchange Service (currency-exchange)
 http://localhost:8000/currency-exchange/from/USD/to/TR
 http://localhost:8001/currency-exchange/from/USD/to/TR
 
-Eureka Service (naming-server)
+*-Eureka Service (naming-server)
 http://localhost:8761/
 
-API Gateway (api-gateway)
-http://localhost:8765/
+*-API Gateway (api-gateway)
+http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/TR
+http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/TR/quantity/100
+- after enable property: spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/TR/quantity/100
+http://localhost:8765/currency-exchange/currency-exchange/from/USD/to/TR
+- after custom routing, disabled 2 properties.
+- # spring.cloud.gateway.discovery.locator.enabled=true
+- # spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+http://localhost:8765/currency-exchange/from/USD/to/TR
+http://localhost:8765/currency-conversion/from/USD/to/TR/quantity/100
+http://localhost:8765/currency-conversion-feign/from/USD/to/TR/quantity/100
+http://localhost:8765/currency-conversion-new/from/USD/to/TR/quantity/100
