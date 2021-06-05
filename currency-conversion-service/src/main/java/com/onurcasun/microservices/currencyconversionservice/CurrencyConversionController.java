@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class CurrencyConversionController {
 
     @Autowired
+    private CurrencyExchangeProxy proxy;
+
+    @Autowired
     Environment environment;
     
     //http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
     @GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
-    public CurrencyConversion getMethodName(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
+    public CurrencyConversion getCurrencyConversion(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
         HashMap<String, String> uriVariables = new HashMap<>();
         uriVariables.put("from", from);
         uriVariables.put("to", to);
@@ -39,6 +42,19 @@ public class CurrencyConversionController {
             quantity, 
             currencyConversion.getConversionMultiple(), 
             quantity.multiply(currencyConversion.getConversionMultiple()), 
-            currencyConversion.getEnvironment());
-    }    
+            currencyConversion.getEnvironment() + " via Rest Template");
+    }
+
+    @GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversion getCurrencyConversionFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
+        CurrencyConversion currencyConversion = proxy.retrieveExchangeRate(from, to);
+        return new CurrencyConversion(
+            currencyConversion.getId(),
+            from, 
+            to, 
+            quantity, 
+            currencyConversion.getConversionMultiple(), 
+            quantity.multiply(currencyConversion.getConversionMultiple()), 
+            currencyConversion.getEnvironment() + " via Feign");
+    }
 }

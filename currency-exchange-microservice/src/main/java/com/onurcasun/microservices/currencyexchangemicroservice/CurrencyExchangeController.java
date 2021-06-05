@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CurrencyExchangeController {
-
+    
     @Autowired
     private CurrencyExchangeRepository repository;
 
@@ -36,5 +36,4 @@ public class CurrencyExchangeController {
         String port = environment.getProperty("local.server.port");
         return port;
     }
-
 }
