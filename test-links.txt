@@ -1,0 +1,12 @@
+Currency Conversion Service (currency-conversion)
+http://localhost:8100/currency-conversion-feign/from/USD/to/TR/quantity/100
+
+Currency Exchange Service (currency-exchange)
+http://localhost:8000/currency-exchange/from/USD/to/TR
+http://localhost:8001/currency-exchange/from/USD/to/TR
+
+Eureka Service (naming-server)
+http://localhost:8761/
+
+API Gateway (api-gateway)
+http://localhost:8765/
