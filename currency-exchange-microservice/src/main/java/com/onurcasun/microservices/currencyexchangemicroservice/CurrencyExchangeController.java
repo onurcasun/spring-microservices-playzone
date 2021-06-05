@@ -1,7 +1,5 @@
 package com.onurcasun.microservices.currencyexchangemicroservice;
 
-import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class CurrencyExchangeController {
 
     @Autowired
+    private CurrencyExchangeRepository repository;
+
+    @Autowired
     private Environment environment;
 
+    //http://localhost:8000/currency-exchange/from/USD/to/TR
     @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange retrieveExchangeRate(@PathVariable String from, @PathVariable String to) {
-        CurrencyExchange currencyExchange = new CurrencyExchange(1000L, from, to, BigDecimal.valueOf(50));
+        //CurrencyExchange currencyExchange = new CurrencyExchange(1000L, from, to, BigDecimal.valueOf(50));
+        CurrencyExchange currencyExchange = repository.findByFromAndTo(from, to);
+        if(currencyExchange == null){
+            throw new RuntimeException(String.format("Unable to find data for from: {%s}, to: {%s}", from,to));
+        }
+
         String port = getEnvironmentPort();
         currencyExchange.setEnvironment(port);
+        repository.findAll();
+        
         return currencyExchange;
     }
 
