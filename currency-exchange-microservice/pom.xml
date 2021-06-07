@@ -98,7 +98,7 @@
 						</name>
 					</image>
 					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
-				 </configuration>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
