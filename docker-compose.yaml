@@ -11,7 +11,8 @@ services:
        depends_on:
         - naming-server
        environment:
-        EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+        eureka.client.service-url.defaultZone: http://naming-server:8761/eureka
+        spring.zipkin.base-url: http://zipkin-server:9411/
     
     currency-conversion:
        image: bettasplendens/microservices-currency-conversion-service:0.0.1-SNAPSHOT
@@ -23,13 +24,35 @@ services:
        depends_on:
         - naming-server
        environment:
-        EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+        eureka.client.service-url.defaultZone: http://naming-server:8761/eureka
+        spring.zipkin.base-url: http://zipkin-server:9411/
+
+    api-gateway:
+       image: bettasplendens/microservices-api-gateway:0.0.1-SNAPSHOT
+       mem_limit: 700m
+       ports:
+        - "8765:8765"
+       networks:
+        - currency-network
+       depends_on:
+        - naming-server
+       environment:
+        eureka.client.service-url.defaultZone: http://naming-server:8761/eureka
+        spring.zipkin.base-url: http://zipkin-server:9411/
 
     naming-server:
         image: bettasplendens/microservices-naming-server:0.0.1-SNAPSHOT
         mem_limit: 700m
         ports:
          - "8761:8761"
+        networks:
+         - currency-network
+
+    zipkin-server:
+        image: openzipkin/zipkin:2.23
+        mem_limit: 700m
+        ports:
+         - "9411:9411"
         networks:
          - currency-network
 
