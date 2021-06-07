@@ -22,3 +22,7 @@ http://localhost:8765/currency-exchange/from/USD/to/TR
 http://localhost:8765/currency-conversion/from/USD/to/TR/quantity/100
 http://localhost:8765/currency-conversion-feign/from/USD/to/TR/quantity/100
 http://localhost:8765/currency-conversion-new/from/USD/to/TR/quantity/100
+
+
+image build code: spring-boot:build-image -DskipTests
+Currency-exchange : docker.io/bettasplendens/microservices-currency-exchange-microservice:0.0.1-SNAPSHOT
